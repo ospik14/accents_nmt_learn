@@ -2,6 +2,8 @@
 
 Telegram-бот для підготовки до НМТ: тренування наголосів через inline-кнопки.
 
+## [🤖 Telegram-бот](https://t.me/nmt_ukr_lg_bot)
+
 ## Стек
 
 - Python 3.12, aiogram 3.x
