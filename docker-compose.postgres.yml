@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nmt}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-nmt_bot}
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nmt} -d ${POSTGRES_DB:-nmt_bot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-nmt}:${POSTGRES_PASSWORD}@db:5431/${POSTGRES_DB:-nmt_bot}
+      AUTO_SEED: "1"
+    volumes: []
+
+volumes:
+  pg-data:

@@ -1,0 +1,12 @@
+.venv
+venv
+__pycache__
+*.py[cod]
+.git
+.github
+.env
+.idea
+.vscode
+data/bot.db
+*.md
+!README.md
