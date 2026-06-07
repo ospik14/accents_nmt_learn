@@ -1,3 +1,5 @@
+import random
+
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.database.models import Word
@@ -28,14 +30,17 @@ def count_selection_keyboard() -> InlineKeyboardMarkup:
 
 
 def answer_options_keyboard(word: Word) -> InlineKeyboardMarkup:
+    order = list(range(len(word.options)))
+    random.shuffle(order)
+
     buttons = [
         [
             InlineKeyboardButton(
-                text=option,
+                text=word.options[index],
                 callback_data=f"answer:{word.id}:{index}",
             )
         ]
-        for index, option in enumerate(word.options)
+        for index in order
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
